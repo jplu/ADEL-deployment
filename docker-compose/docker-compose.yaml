@@ -1,0 +1,125 @@
+version: "3.7"
+services:
+  adel-config-server:
+    image: jplu/adel-config-server:2.0.0
+    container_name: adel-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - adelnet
+  adel-discovery-server:
+    image: jplu/adel-discovery-server:2.0.0
+    container_name: adel-discovery-server
+    environment:
+      CONFIG_URI: http://adel-config-server:8888
+      EUREKA_URI: http://adel-discovery-server:8761/eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - adelnet
+  adel-api:
+    image: jplu/adel-api-en:2.0.0
+    container_name: adel-api-en
+    environment:
+      CONFIG_URI: http://adel-config-server:8888
+      EUREKA_URI: http://adel-discovery-server:8761/eureka
+      ELASTIC_APM_SERVICE_NAME: adel-api-en
+      ELASTIC_APM_APPLICATION_PACKAGES: fr.eurecom.adel
+      ELASTIC_APM_SERVER_URLS: http://apm-server:8200
+    networks:
+      - adelnet
+  adel-api-gateway:
+    image: jplu/adel-api-gateway:2.0.0
+    container_name: adel-api-gateway
+    environment:
+      CONFIG_URI: http://adel-config-server:8888
+      EUREKA_URI: http://adel-discovery-server:8761/eureka
+    ports:
+      - "9004:9004"
+    networks:
+      - adelnet
+  adel-admin-server:
+    image: jplu/adel-admin-server:2.0.0
+    container_name: adel-admin-server
+    environment:
+      CONFIG_URI: http://adel-config-server:8888
+      EUREKA_URI: http://adel-discovery-server:8761/eureka
+    ports:
+      - "9090:9090"
+    networks:
+      - adelnet
+  adel-hystrix-dashboard:
+    image: jplu/adel-hystrix-dashboard:2.0.0
+    container_name: adel-hystrix-dashboard
+    environment:
+      CONFIG_URI: http://adel-config-server:8888
+      EUREKA_URI: http://adel-discovery-server:8761/eureka
+    ports:
+      - "7979:7979"
+    networks:
+      - adelnet
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+    container_name: elasticsearch
+    environment:
+      - node.name=es01
+      - cluster-name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - cluster.initial_master_nodes=es01
+      - node.master=true
+      - MAX_LOCKED_MEMORY=unlimited
+    ulimits:
+      nproc: 65535
+      nofile: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - adelnet
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.0.0
+    container_name: kibana
+    environment:
+      - SERVER_NAME=localhost
+      - ELASTICSEARCH_URL=http://elasticsearch:9200/
+      - LOGGING_QUIET=true
+    ports:
+      - "5601:5601"
+    ulimits:
+      nproc: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - adelnet
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.0.0
+    container_name: apm-server
+    environment:
+      - apm-server.host=0.0.0.0:8200
+      - apm-server.concurrent_requests=5
+      - apm-server.rum.enabled=true
+      - queue.mem.events=4096
+      - max_procs=4
+      - output.elasticsearch.hosts=["http://elasticsearch:9200"]
+      - setup.kibana.host="kibana:5601"
+      - setup.dashboards.enabled=true
+      - logging.level=info
+      - logging.to_files=false
+    ports:
+      - "8200:8200"
+    networks:
+      - adelnet
+
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  adelnet:
