@@ -38,6 +38,13 @@ services:
       - "9004:9004"
     networks:
       - adelnet
+  adel-frontend:
+    image: jplu/adel-frontend:2.0.0
+    container_name: adel-frontend
+    ports:
+      - "80:80"
+    networks:
+      - adelnet
   adel-admin-server:
     image: jplu/adel-admin-server:2.0.0
     container_name: adel-admin-server
