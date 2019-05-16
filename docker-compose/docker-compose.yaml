@@ -66,7 +66,7 @@ services:
     networks:
       - adelnet
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
     container_name: elasticsearch
     environment:
       - node.name=es01
@@ -90,7 +90,7 @@ services:
     networks:
       - adelnet
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.0.0
+    image: docker.elastic.co/kibana/kibana:7.0.1
     container_name: kibana
     environment:
       - SERVER_NAME=localhost
@@ -106,7 +106,7 @@ services:
     networks:
       - adelnet
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.0.0
+    image: docker.elastic.co/apm/apm-server:7.0.1
     container_name: apm-server
     environment:
       - apm-server.host=0.0.0.0:8200
