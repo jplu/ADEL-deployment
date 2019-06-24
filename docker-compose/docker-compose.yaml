@@ -18,7 +18,7 @@ services:
     networks:
       - adelnet
   adel-api:
-    image: jplu/adel-api-en:2.0.0
+    image: jplu/adel-api:en-2.0.0
     container_name: adel-api-en
     environment:
       CONFIG_URI: http://adel-config-server:8888
