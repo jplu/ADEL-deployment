@@ -76,7 +76,7 @@ services:
     networks:
       - adelnet
   elasticsearch:
-    image: jplu/adel-enwiki-01-2018:7.3.1
+    image: jplu/adel-enwiki-08-2019:7.4.0
     container_name: elasticsearch
     environment:
       - node.name=es01
@@ -100,7 +100,7 @@ services:
     networks:
       - adelnet
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.3.1
+    image: docker.elastic.co/kibana/kibana:7.4.0
     container_name: kibana
     environment:
       - SERVER_NAME=localhost
@@ -116,7 +116,7 @@ services:
     networks:
       - adelnet
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.3.1
+    image: docker.elastic.co/apm/apm-server:7.4.0
     container_name: apm-server
     environment:
       - apm-server.host=0.0.0.0:8200
