@@ -67,7 +67,7 @@ services:
     networks:
       - adelnet
   deepner-client:
-    image: jplu/deepner_client:latest
+    image: jplu/deepner_client:en
     container_name: deepner-client
     environment:
       HOST_NAME: deepner-server
@@ -80,10 +80,12 @@ services:
     container_name: elasticsearch
     environment:
       - node.name=es01
-      - cluster-name=docker-cluster
+      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
       - cluster.initial_master_nodes=es01
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
       - node.master=true
       - MAX_LOCKED_MEMORY=unlimited
     ulimits:
@@ -92,8 +94,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-    volumes:
-      - esdata1:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -133,10 +133,6 @@ services:
       - "8200:8200"
     networks:
       - adelnet
-
-volumes:
-  esdata1:
-    driver: local
 
 networks:
   adelnet:
