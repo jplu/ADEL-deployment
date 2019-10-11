@@ -2,7 +2,7 @@
 Kubernetes, Helm and Docker compose scripts for deploying ADEL
 
 # Requirements
-* `sudo sysctl -w vm.max_map_count=262144`
+* `sudo sysctl -w vm.max_map_count=262144` (more details [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html))
 * `export DOCKER_CLIENT_TIMEOUT=120`
 * `export COMPOSE_HTTP_TIMEOUT=120`
 
