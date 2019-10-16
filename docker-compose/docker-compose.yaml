@@ -60,7 +60,7 @@ services:
     networks:
       - adelnet
   deepner-server:
-    image: jplu/deepner_server:latest-en-conll
+    image: jplu/deepner_server:en-conll
     container_name: deepner-server
     ports:
       - "8500:8500"
