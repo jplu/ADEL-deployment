@@ -17,13 +17,13 @@ services:
       - "8761:8761"
     networks:
       - adelnet
-  adel-api:
+  adel-api-en:
     image: jplu/adel-api:en-2.0.0
     container_name: adel-api-en
     environment:
       CONFIG_URI: http://adel-config-server:8888
       EUREKA_URI: http://adel-discovery-server:8761/eureka
-      DEEPNER_URI: http://deepner-client/api/ner/recognize
+      DEEPNER_URI: http://deepner-client-en/api/ner/recognize
       ELASTIC_APM_SERVICE_NAME: adel-api-en
       ELASTIC_APM_APPLICATION_PACKAGES: fr.eurecom.adel
       ELASTIC_APM_SERVER_URLS: http://apm-server:8200
@@ -59,18 +59,18 @@ services:
       - "7979:7979"
     networks:
       - adelnet
-  deepner-server:
-    image: jplu/deepner_server:en-conll
-    container_name: deepner-server
+  deepner-server-en:
+    image: jplu/deepner_server:en
+    container_name: deepner-server-en
     ports:
       - "8500:8500"
     networks:
       - adelnet
-  deepner-client:
+  deepner-client-en:
     image: jplu/deepner_client:en
-    container_name: deepner-client
+    container_name: deepner-client-en
     environment:
-      HOST_NAME: deepner-server
+      HOST_NAME: deepner-server-en
     ports:
       - "80:8000"
     networks:
