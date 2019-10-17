@@ -13,4 +13,4 @@ To start ADEL with Docker compose, run the following command line:
 
 ```docker-compose up -d```
 
-Be sure to be in the `docker-compose` folder to run this command. Once all the images have been downloaded, wait 5 minutes to be sure that everything is properly set. Be careful, the Docker image for the index is around 50GB to download so be sure to have a proper internet connection.
+Be sure to be in the `docker-compose` folder to run this command. Once all the images have been downloaded, wait 6-7 minutes to be sure that everything is properly set. Be careful, the Docker image for the index is around 50GB to download so be sure to have a proper internet connection.
