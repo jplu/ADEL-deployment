@@ -6,11 +6,24 @@ Kubernetes, Helm and Docker compose scripts for deploying ADEL
 * `export DOCKER_CLIENT_TIMEOUT=120`
 * `export COMPOSE_HTTP_TIMEOUT=120`
 
-To properly run ADEL you have to have at least 10 GB of RAM and 60 GB of disk space fully dedicated to ADEL.
+[FR-EN pipeline](docker-compose/docker-compose.yaml): requires at least 16 GB of RAM and 70 GB of disk space fully dedicated to ADEL.
+[FR pipeline](docker-compose/docker-compose-fr.yaml):  requires at least X GB of RAM and X GB of disk space fully dedicated to ADEL.
+[EN pipeline](docker-compose/docker-compose-en.yaml): requires at least X GB of RAM and X GB of disk space fully dedicated to ADEL.
 
-# Start ADEL
-To start ADEL with Docker compose, run the following command line:
+# Docker compose
+Be careful, the Docker image for each index is around 50GB to download so be sure to have a proper internet connection. Once all the images have been downloaded, wait 10 minutes to be sure that everything is properly set.
+
+## FR-EN pipeline
+To start this pipeline with Docker compose, run the following command line:
 
 ```docker-compose up -d```
 
-Be sure to be in the `docker-compose` folder to run this command. Once all the images have been downloaded, wait 6-7 minutes to be sure that everything is properly set. Be careful, the Docker image for the index is around 50GB to download so be sure to have a proper internet connection.
+## FR pipeline
+To start this pipeline with Docker compose, run the following command line:
+
+```docker-compose -f docker-compose-fr.yaml up -d```
+
+## EN pipeline
+To start this pipeline with Docker compose, run the following command line:
+
+```docker-compose -f docker-compose-en.yaml up -d```
