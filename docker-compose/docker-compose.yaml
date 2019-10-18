@@ -17,6 +17,18 @@ services:
       - "8761:8761"
     networks:
       - adelnet
+  adel-api-fr:
+    image: jplu/adel-api:fr-2.0.0
+    container_name: adel-api-fr
+    environment:
+      CONFIG_URI: http://adel-config-server:8888
+      EUREKA_URI: http://adel-discovery-server:8761/eureka
+      DEEPNER_URI: http://deepner-client-fr:81/api/recognize
+      ELASTIC_APM_SERVICE_NAME: adel-api-fr
+      ELASTIC_APM_APPLICATION_PACKAGES: fr.eurecom.adel
+      ELASTIC_APM_SERVER_URLS: http://apm-server:8200
+    networks:
+      - adelnet
   adel-api-en:
     image: jplu/adel-api:en-2.0.0
     container_name: adel-api-en
@@ -73,6 +85,29 @@ services:
       HOST_NAME: deepner-server-en
     ports:
       - "80:8000"
+    networks:
+      - adelnet
+  deepner-server-fr:
+    image: jplu/deepner_server:fr
+    container_name: deepner-server-fr
+    entrypoint:
+      - tensorflow_model_server
+      - --port=8502
+      - --model_name=ner
+      - --model_base_path=/models/ner
+    ports:
+      - "8502:8502"
+    networks:
+      - adelnet
+  deepner-client-fr:
+    image: jplu/deepner_client:fr
+    container_name: deepner-client-fr
+    environment:
+      HOST_NAME: deepner-server-fr
+      SERVER_GRPC_PORT: 8502
+      PORT: 81
+    ports:
+      - "81:8001"
     networks:
       - adelnet
   elasticsearch:
